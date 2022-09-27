@@ -4,20 +4,27 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                echo 'building the application'
+                script {
+                    echo 'building the application...'
+                }
             }
         }
         
         stage('Test') {
-            steps {
-                echo 'Testing the application'
+            steps {      
+                script {
+                   echo 'Testing the application...'
+                }   
             }
         }
         
-        stage('deploy) {
+        stage('deploy') {
             steps {
-                echo 'Deploying the application'
-                echo 'Changes made for testings'
+                script {
+                   sshagent(['ec2-server']) {
+                       sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.91.73.189'                    
+                   }
+                }   
             }
         }
     }
